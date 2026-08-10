@@ -2,6 +2,7 @@ package com.trabajopractico.fundamentosdespring.pedido;
 
 import com.trabajopractico.fundamentosdespring.detallePedido.DetallePedidoDto;
 import com.trabajopractico.fundamentosdespring.models.*;
+import com.trabajopractico.fundamentosdespring.usuario.UsuarioDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +17,9 @@ public record PedidoDto(
         List<DetallePedido> detalles
 ) {
     public static PedidoDto toDto(Pedido pedido){
-        return new PedidoDto(pedido.getId(),pedido.getFecha(), pedido.getEstado(), pedido.getTotal(), pedido.getFormaPago(),  pedido.getUsuario(), pedido.getDetalles());
+        return new PedidoDto(pedido.getId(),pedido.getFecha(), pedido.getEstado(), pedido.getTotal(),
+                pedido.getFormaPago(),
+                pedido.getUsuario() != null ? UsuarioDto.toDto(pedido.getUsuario()) : null,
+                pedido.getDetalles());
     }
 }

@@ -4,10 +4,13 @@ import com.trabajopractico.fundamentosdespring.producto.ProductoDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -31,6 +34,7 @@ public class Producto extends Base {
         this.descripcion = descripcion;
         this.stock = stock;
         this.imagen = imagen;
+        this.disponible = disponible;
         this.categoria = categoria;
     }
 }
