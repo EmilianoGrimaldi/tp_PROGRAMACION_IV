@@ -19,6 +19,7 @@ public class Pedido extends Base{
     private LocalDate fecha;
     @Enumerated(EnumType.STRING)
     private Estado estado;
+    private Double total;
     @Enumerated(EnumType.STRING)
     private FormaPago formaPago;
 

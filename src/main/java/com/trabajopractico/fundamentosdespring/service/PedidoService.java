@@ -1,6 +1,6 @@
 package com.trabajopractico.fundamentosdespring.service;
 
-import com.trabajopractico.fundamentosdespring.detallePedido.DetallePedidoDTO;
+import com.trabajopractico.fundamentosdespring.detallePedido.DetallePedidoDto;
 import com.trabajopractico.fundamentosdespring.models.Estado;
 import com.trabajopractico.fundamentosdespring.models.Pedido;
 import com.trabajopractico.fundamentosdespring.models.Usuario;
@@ -26,7 +26,7 @@ public class PedidoService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Pedido crearPedidoConDetalles(Usuario usuario, List<DetallePedidoDTO> detallesDTO) {
+    public Pedido crearPedidoConDetalles(Usuario usuario, List<DetallePedidoDto> detallesDTO) {
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
         pedido.setFecha(LocalDate.now());

@@ -13,13 +13,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class DetallePedido {
-    // SOLO estos dos atributos, tal cual el UML
+public class DetallePedido extends Base{
     private int cantidad;
     private Double subtotal;
 
-    // Relaciones (necesarias para JPA, aunque no estén explícitas en el recuadro UML,
-    // son obligatorias para que funcione el método addDetallePedido)
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
@@ -28,10 +25,10 @@ public class DetallePedido {
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
-    public DetallePedido(Pedido pedido, Producto producto, int cantidad) {
-        this.pedido = pedido;
-        this.producto = producto;
+    public DetallePedido(int cantidad, Double subtotal) {
         this.cantidad = cantidad;
-        this.subtotal = producto.getPrecio() * cantidad;
+        this.subtotal = subtotal;
     }
+
+
 }
