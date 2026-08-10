@@ -17,7 +17,12 @@ import java.util.List;
 @Entity
 public class Categoria extends Base{
     private String nombre;
-    private String description;
+    private String descripcion;
     @OneToMany(mappedBy = "categoria")
     private List<Producto> productos = new ArrayList<>();
+
+    public Categoria(String nombre, String descripcion){
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
 }
