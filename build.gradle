@@ -18,14 +18,24 @@ repositories {
 }
 
 dependencies {
+    // ERROR: Dependencia con artefacto incorrecto. 'spring-boot-h2console' no existe.
+    // El nombre correcto del starter de H2 es 'com.h2database:h2' (ya incluido como runtimeOnly en línea 26).
+    // Esta línea debe eliminarse o reemplazarse; tal como está, provocará un error de resolución en Gradle.
 	implementation 'org.springframework.boot:spring-boot-h2console'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // ERROR: El artefacto 'spring-boot-starter-webmvc' no existe con ese nombre.
+    // El starter correcto para Spring MVC es 'org.springframework.boot:spring-boot-starter-web'.
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
+    // ERROR: El artefacto 'spring-boot-starter-data-jpa-test' no existe.
+    // El starter de test correcto es 'org.springframework.boot:spring-boot-starter-test'.
 	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+    // ERROR: El artefacto 'spring-boot-starter-webmvc-test' no existe.
+    // La dependencia de test para MVC es 'org.springframework.boot:spring-boot-starter-test'
+    // (ya cubierto por el starter anterior; este es redundante e incorrecto).
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

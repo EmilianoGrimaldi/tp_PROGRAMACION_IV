@@ -1,25 +1,21 @@
 package com.trabajopractico.fundamentosdespring.pedido;
 
-import com.trabajopractico.fundamentosdespring.detallePedido.DetallePedidoDto;
 import com.trabajopractico.fundamentosdespring.models.*;
-import com.trabajopractico.fundamentosdespring.usuario.UsuarioDto;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public record PedidoDto(
-        long id,
+        Long id,
         LocalDate fecha,
         Estado estado,
         Double total,
-        FormaPago formaPago,
-        Usuario usuario,
-        List<DetallePedido> detalles
+        FormaPago formaPago
 ) {
     public static PedidoDto toDto(Pedido pedido){
-        return new PedidoDto(pedido.getId(),pedido.getFecha(), pedido.getEstado(), pedido.getTotal(),
-                pedido.getFormaPago(),
-                pedido.getUsuario() != null ? UsuarioDto.toDto(pedido.getUsuario()) : null,
-                pedido.getDetalles());
+        // ERROR: En la línea 22, se llama a 'UsuarioDto.toDto(pedido.getUsuario())'.
+        // Pero el tipo de retorno de ese método está declarado como 'Usuario' (no 'UsuarioDto'),
+        // lo que produce un error de compilación al intentar asignarlo al campo 'usuario' (también
+        // incorrecto, ver arriba). Ambos errores están encadenados.
+        return new PedidoDto(pedido.getId(),pedido.getFecha(), pedido.getEstado(), pedido.getTotal(),pedido.getFormaPago());
     }
 }

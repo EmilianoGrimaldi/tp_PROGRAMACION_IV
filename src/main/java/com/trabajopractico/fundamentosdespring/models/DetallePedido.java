@@ -25,9 +25,14 @@ public class DetallePedido extends Base{
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
-    public DetallePedido(int cantidad, Double subtotal) {
+    public DetallePedido(int cantidad) {
         this.cantidad = cantidad;
-        this.subtotal = subtotal;
+        // ERROR NUEVO: NullPointerException en runtime. El campo 'producto' es null en este punto
+        // porque es asignado por JPA, no por el constructor. Llamar a 'producto.getPrecio()' aquí
+        // lanzará NullPointerException siempre que se use este constructor.
+        // El subtotal debe calcularse externamente, donde ya se tenga el objeto Producto disponible,
+        // o bien recibir el Producto como parámetro en este constructor.
+        this.subtotal = cantidad * producto.getPrecio();
     }
 
 

@@ -1,16 +1,18 @@
 package com.trabajopractico.fundamentosdespring.models;
 
-import com.trabajopractico.fundamentosdespring.producto.ProductoDto;
+// NOTA: El import de 'ProductoDto' ya fue eliminado correctamente.
+// ERROR NUEVO: El constructor con parámetros fue eliminado, pero 'ProductoCreate.toEntity()'
+// llama a 'new Producto(nombre, precio, descripcion, stock, imagen, disponible, categoria)'.
+// Lombok @AllArgsConstructor genera un constructor solo con los campos propios de la clase (no heredados),
+// que coincide con esa firma (7 parámetros), por lo que actualmente compila correctamente.
+// Sin embargo, si en el futuro se agregan campos a Producto o a Base, este comportamiento puede cambiar.
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Setter
 @Getter
@@ -28,13 +30,4 @@ public class Producto extends Base {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    public Producto(String nombre, double precio, String descripcion, int stock, String imagen, boolean disponible, Categoria categoria) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.descripcion = descripcion;
-        this.stock = stock;
-        this.imagen = imagen;
-        this.disponible = disponible;
-        this.categoria = categoria;
-    }
 }
