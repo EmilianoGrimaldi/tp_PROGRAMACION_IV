@@ -30,11 +30,12 @@ public class Usuario extends Base {
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos = new ArrayList<>();
 
-    public Usuario(String nombre, String apellido, String mail, String celular, Rol rol) {
+    public Usuario(String nombre, String apellido, String mail, String celular, String contrasenia, Rol rol) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.mail = mail;
         this.celular = celular;
+        this.contrasenia = contrasenia;
         this.rol = rol;
     }
 }

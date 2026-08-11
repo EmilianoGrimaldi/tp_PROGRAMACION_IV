@@ -1,25 +1,18 @@
 package com.trabajopractico.fundamentosdespring.service;
 
-import com.trabajopractico.fundamentosdespring.models.Producto;
+import com.trabajopractico.fundamentosdespring.categoria.CategoriaCreate;
+import com.trabajopractico.fundamentosdespring.categoria.CategoriaDto;
+import com.trabajopractico.fundamentosdespring.categoria.CategoriaEdit;
 import com.trabajopractico.fundamentosdespring.producto.ProductoCreate;
-import com.trabajopractico.fundamentosdespring.repository.ProductoRepository;
-import org.springframework.stereotype.Service;
+import com.trabajopractico.fundamentosdespring.producto.ProductoDto;
+import com.trabajopractico.fundamentosdespring.producto.ProductoEdit;
 
 import java.util.List;
 
-@Service
-public class ProductoService {
-    private final ProductoRepository productoRepository;
-
-    public ProductoService(ProductoRepository productoRepository) {
-        this.productoRepository = productoRepository;
-    }
-
-    public Producto crearProducto(ProductoCreate dto) {
-        return productoRepository.save(dto.toEntity());
-    }
-
-    public List<Producto> listarTodos() {
-        return productoRepository.findAll();
-    }
+public interface ProductoService {
+    public ProductoDto save(ProductoCreate productoCreate);
+    public ProductoDto findById(Long id);
+    public List<ProductoDto> findAll();
+    public ProductoDto update(ProductoEdit productoEdit, Long idProducto);
+    public void deleteById(Long id);
 }

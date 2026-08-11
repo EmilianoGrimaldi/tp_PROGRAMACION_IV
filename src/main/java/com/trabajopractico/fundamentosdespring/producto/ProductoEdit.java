@@ -10,9 +10,9 @@ public record ProductoEdit(
         Integer stock,
         String imagen,
         Boolean disponible,
-        Categoria categoria
+        Long categoriaId
 ) {
-    public void applyTo(Producto producto){
+    public void applyTo(Producto producto, Categoria categoria){
         if (this.nombre != null){
             producto.setNombre(this.nombre);
         }
@@ -31,8 +31,8 @@ public record ProductoEdit(
         if (this.disponible){
             producto.setDisponible(this.disponible);
         }
-        if (this.categoria != null){
-            producto.setCategoria(this.categoria);
+        if (categoria != null){
+            producto.setCategoria(categoria);
         }
     }
 }

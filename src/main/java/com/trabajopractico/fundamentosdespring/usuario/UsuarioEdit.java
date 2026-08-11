@@ -8,6 +8,7 @@ public record UsuarioEdit(
         String apellido,
         String mail,
         String celular,
+        String contrasenia,
         Rol rol
 ) {
     public void applyTo(Usuario usuario){
@@ -25,6 +26,9 @@ public record UsuarioEdit(
         }
         if (this.rol != null){
             usuario.setRol(this.rol);
+        }
+        if (this.contrasenia != null){
+            usuario.setContrasenia(this.contrasenia);
         }
     }
 }

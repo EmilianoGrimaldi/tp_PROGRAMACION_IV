@@ -12,7 +12,7 @@ public record ProductoCreate(
         boolean disponible,
         Categoria categoria
 ) {
-    public Producto toEntity(){
-        return new Producto(this.nombre,this.precio,this.descripcion,this.stock,this.imagen, this.disponible, this.categoria);
+    public Producto toEntity(Categoria categoria){
+        return new Producto(this.nombre,this.precio,this.descripcion,this.stock,this.imagen, this.disponible, categoria);
     }
 }

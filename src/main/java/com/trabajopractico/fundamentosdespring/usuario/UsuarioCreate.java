@@ -9,9 +9,10 @@ public record UsuarioCreate(
         String apellido,
         String mail,
         String celular,
+        String contrasenia,
         Rol rol
 ) {
     public Usuario toEntity(){
-        return new Usuario(this.nombre, this.apellido, this.mail, this.celular, this.rol);
+        return new Usuario(this.nombre, this.apellido, this.mail, this.celular, this.contrasenia, this.rol);
     }
 }

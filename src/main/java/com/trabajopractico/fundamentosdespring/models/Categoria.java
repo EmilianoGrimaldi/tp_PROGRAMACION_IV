@@ -25,4 +25,5 @@ public class Categoria extends Base{
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
+
 }
