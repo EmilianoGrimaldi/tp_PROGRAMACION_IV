@@ -13,13 +13,7 @@ public record PedidoEdit (
         FormaPago formaPago
 ) {
     public void applyTo(Pedido pedido){
-        // ERROR: La condición revisa 'pedido.getFecha()' (la fecha actual del objeto existente)
-        // en lugar de 'this.fecha' (la nueva fecha recibida en el DTO de edición).
-        // Esto hace que la fecha nunca se actualice si el pedido ya tiene una fecha asignada,
-        // o que se ejecute el bloque cuando no debería.
         if(this.fecha != null){
-            // ERROR: Self-assignment: se sobreescribe 'pedido.fecha' con el mismo valor 'pedido.getFecha()'.
-            // Nunca se usa 'this.fecha' para actualizar el pedido. El nuevo valor del DTO es ignorado.
             pedido.setFecha(this.fecha);
         }
         if (this.estado != null){

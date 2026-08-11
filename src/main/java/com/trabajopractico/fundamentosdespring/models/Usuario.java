@@ -17,12 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-// ERROR: Usuario no extiende Base, por lo que no tiene los campos 'id',
-// 'eliminado' ni 'createdAt'.
-// Esto además causa que UsuarioRepository<Usuario, Long> no pueda resolver el
-// tipo de ID correctamente
-// sin la anotación @Id propia, lo que producirá un error al iniciar el contexto
-// de Spring.
+
 public class Usuario extends Base {
     private String nombre;
     private String apellido;
