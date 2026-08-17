@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface PedidoService {
     public PedidoDto save(Pedido pedido);
+
     public PedidoDto findById(Long id);
+
     public List<PedidoDto> findAll();
+
     public PedidoDto update(PedidoEdit pedidoEdit, Long idPedido);
+
     public void deleteById(Long id);
 }

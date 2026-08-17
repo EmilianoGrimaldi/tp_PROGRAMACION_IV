@@ -3,7 +3,6 @@ package com.trabajopractico.fundamentosdespring.service;
 import com.trabajopractico.fundamentosdespring.categoria.CategoriaCreate;
 import com.trabajopractico.fundamentosdespring.categoria.CategoriaDto;
 import com.trabajopractico.fundamentosdespring.categoria.CategoriaEdit;
-import com.trabajopractico.fundamentosdespring.models.Categoria;
 
 import java.util.List;
 

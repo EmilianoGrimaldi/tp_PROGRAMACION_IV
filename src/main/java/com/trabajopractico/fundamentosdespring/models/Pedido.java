@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Pedido extends Base{
+public class Pedido extends Base implements ICalculable {
     private LocalDate fecha;
     @Enumerated(EnumType.STRING)
     private Estado estado;
@@ -30,6 +30,13 @@ public class Pedido extends Base{
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetallePedido> detalles = new ArrayList<>();
 
+    @Override
+    public void calcularTotal() {
+        this.total = this.detalles.stream()
+                .mapToDouble(DetallePedido::getSubtotal)
+                .sum();
+    }
+
     public void addDetallePedido(int cantidad, Producto producto) {
         DetallePedido detalle = findDetallePedidoByProducto(producto);
         if (detalle != null) {
@@ -40,30 +47,27 @@ public class Pedido extends Base{
             detalle.setPedido(this);
             this.detalles.add(detalle);
         }
-        
-        this.total = this.detalles.stream()
-                                  .mapToDouble(DetallePedido::getSubtotal)
-                                  .sum();
+
+        calcularTotal();
     }
 
-    public DetallePedido findDetallePedidoByProducto(Producto producto){
-        if (producto == null || producto.getId() == null) return null;
+    public DetallePedido findDetallePedidoByProducto(Producto producto) {
+        if (producto == null || producto.getId() == null)
+            return null;
         return detalles.stream()
-                       .filter(d -> d.getProducto() != null && d.getProducto().getId().equals(producto.getId()))
-                       .findFirst()
-                       .orElse(null);
+                .filter(d -> d.getProducto() != null && d.getProducto().getId().equals(producto.getId()))
+                .findFirst()
+                .orElse(null);
     }
 
-    public void deleteDetallePedidoByProducto(Producto producto){
+    public void deleteDetallePedidoByProducto(Producto producto) {
         DetallePedido detalle = findDetallePedidoByProducto(producto);
         if (detalle != null) {
             this.detalles.remove(detalle);
             detalle.setPedido(null);
-            
-            this.total = this.detalles.stream()
-                                      .mapToDouble(DetallePedido::getSubtotal)
-                                      .sum();
+
+            calcularTotal();
         }
     }
-    
+
 }

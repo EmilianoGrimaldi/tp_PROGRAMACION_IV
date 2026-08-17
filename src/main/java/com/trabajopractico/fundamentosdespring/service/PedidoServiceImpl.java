@@ -10,8 +10,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PedidoServiceImpl implements PedidoService{
-    
+public class PedidoServiceImpl implements PedidoService {
+
     private final PedidoRepository pedidoRepository;
 
     public PedidoServiceImpl(PedidoRepository pedidoRepository) {
@@ -26,7 +26,8 @@ public class PedidoServiceImpl implements PedidoService{
 
     @Override
     public PedidoDto findById(Long id) {
-        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new NullPointerException("No se encontro la pedido con el id " + id ));
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("No se encontro la pedido con el id " + id));
         return PedidoDto.toDto(pedido);
     }
 
@@ -38,7 +39,8 @@ public class PedidoServiceImpl implements PedidoService{
 
     @Override
     public PedidoDto update(PedidoEdit pedidoEdit, Long idPedido) {
-        Pedido pedido = pedidoRepository.findById(idPedido).orElseThrow(() -> new NullPointerException("No se encontro la pedido con el id " + idPedido ));
+        Pedido pedido = pedidoRepository.findById(idPedido)
+                .orElseThrow(() -> new NullPointerException("No se encontro la pedido con el id " + idPedido));
         pedidoEdit.applyTo(pedido);
         pedido = pedidoRepository.save(pedido);
         return PedidoDto.toDto(pedido);
@@ -46,7 +48,8 @@ public class PedidoServiceImpl implements PedidoService{
 
     @Override
     public void deleteById(Long id) {
-        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new NullPointerException("No se encontro la pedido con el id " + id ));
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("No se encontro la pedido con el id " + id));
         pedido.setEliminado(true);
         pedidoRepository.save(pedido);
     }
