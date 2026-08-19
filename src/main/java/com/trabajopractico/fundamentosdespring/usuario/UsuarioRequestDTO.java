@@ -1,5 +1,6 @@
 package com.trabajopractico.fundamentosdespring.usuario;
 
+import com.trabajopractico.fundamentosdespring.models.Rol;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -27,5 +28,8 @@ public record UsuarioRequestDTO(
 
         @NotBlank(message = "La contraseña no puede estar vacía")
         @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
-        String contrasenia
+        String contrasenia,
+
+        @NotBlank(message = "El rol no puede estar vacío")
+        Rol rol
 ) { }

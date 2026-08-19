@@ -1,15 +1,13 @@
 package com.trabajopractico.fundamentosdespring.service;
 
-import com.trabajopractico.fundamentosdespring.usuario.UsuarioCreate;
-import com.trabajopractico.fundamentosdespring.usuario.UsuarioDto;
-import com.trabajopractico.fundamentosdespring.usuario.UsuarioEdit;
+import com.trabajopractico.fundamentosdespring.usuario.*;
 
 import java.util.List;
 
 public interface UsuarioService {
-    public UsuarioDto save(UsuarioCreate UsuarioCreate);
-    public UsuarioDto findById(Long id);
-    public List<UsuarioDto> findAll();
-    public UsuarioDto update(UsuarioEdit UsuarioEdit, Long idUsuario);
+    public UsuarioResponseDTO save(UsuarioRequestDTO usuario);
+    public UsuarioResponseDTO findById(Long id);
+    public List<UsuarioResponseDTO> findAll();
+    public UsuarioResponseDTO update(UsuarioEdit UsuarioEdit, Long idUsuario);
     public void deleteById(Long id);
 }
