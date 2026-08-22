@@ -5,9 +5,9 @@ import com.trabajopractico.fundamentosdespring.usuario.*;
 import java.util.List;
 
 public interface UsuarioService {
-    public UsuarioResponseDTO save(UsuarioRequestDTO usuario);
-    public UsuarioResponseDTO findById(Long id);
-    public List<UsuarioResponseDTO> findAll();
-    public UsuarioResponseDTO update(UsuarioEdit UsuarioEdit, Long idUsuario);
+    public UsuarioDto save(UsuarioCreate usuario);
+    public UsuarioDto findById(Long id);
+    public List<UsuarioDto> findAll();
+    public UsuarioDto update(UsuarioEdit UsuarioEdit, Long idUsuario);
     public void deleteById(Long id);
 }

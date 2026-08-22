@@ -25,8 +25,18 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public ProductoDto save(ProductoCreate productoCreate) {
-        Categoria categoria = categoriaRepository.findById(productoCreate.categoria().getId()).orElseThrow(() -> new NullPointerException("No se encontro la categoria con el id " + id ));
+        Long categoriaId = productoCreate.categoriaId();
+        Categoria categoria = categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> new IllegalArgumentException("No se encontró la categoría con ID: " + categoriaId));
+
+        // Ajuste de disponible según stock (opcional)
+        boolean disponibleFinal = productoCreate.disponible();
+        if (productoCreate.stock() == 0 && disponibleFinal) {
+            disponibleFinal = false; // forzar a no disponible
+        }
+
         Producto producto = productoCreate.toEntity(categoria);
+        producto.setDisponible(disponibleFinal);
         productoRepository.save(producto);
         return ProductoDto.toDto(producto);
     }

@@ -12,7 +12,7 @@ public record ProductoEdit(
         Boolean disponible,
         Long categoriaId
 ) {
-    public void applyTo(Producto producto, Categoria categoria){
+    public void applyTo(Producto producto, Long categoriaId){
         if (this.nombre != null){
             producto.setNombre(this.nombre);
         }
@@ -31,8 +31,8 @@ public record ProductoEdit(
         if (this.disponible){
             producto.setDisponible(this.disponible);
         }
-        if (categoria != null){
-            producto.setCategoria(categoria);
+        if (this.categoriaId != null){
+            producto.setCategoriaId(this.categoriaId);
         }
     }
 }

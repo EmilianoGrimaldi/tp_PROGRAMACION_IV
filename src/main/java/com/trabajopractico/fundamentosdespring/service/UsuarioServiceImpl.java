@@ -18,7 +18,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public UsuarioResponseDTO save(UsuarioRequestDTO usuario) {
+    public UsuarioDto save(UsuarioCreate usuario) {
         if (usuario.nombre() == null || usuario.nombre().isBlank()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío");
         }
@@ -34,33 +34,33 @@ public class UsuarioServiceImpl implements UsuarioService{
         if (usuario.mail() == null || usuario.mail().isBlank()) {
             throw new IllegalArgumentException("El mail no puede estar vacío");
         }
-        if (usuario.rol() == null || usuario.rol().equals(Rol.ADMIN) || usuario.rol().equals(Rol.USUARIO)) {
-            throw new IllegalArgumentException("El rol no puede estar vacío");
+        if (usuario.rol() == null || (!usuario.rol().equals(Rol.ADMIN) && !usuario.rol().equals(Rol.USUARIO))) {
+            throw new IllegalArgumentException("El rol debe ser ADMIN o USUARIO");
         }
-        Usuario usuarioCreado = Usuario.builder().nombre(usuario.nombre()).apellido(usuario.apellido()).mail(usuario.mail())
-                .celular(usuario.celular()).contrasenia(usuario.contrasenia()).rol(usuario.rol()).build();
-        return UsuarioResponseDTO.fromEntity(usuarioRepository.save(usuarioCreado));
+        Usuario usuarioCreado = usuario.toEntity();
+
+        return UsuarioDto.toDto(usuarioRepository.save(usuarioCreado));
     }
 
     @Override
-    public UsuarioResponseDTO findById(Long id) {
+    public UsuarioDto findById(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new NullPointerException("No se encontro la usuario con el id " + id ));
-        return UsuarioResponseDTO.fromEntity(usuario);
+        return UsuarioDto.toDto(usuario);
     }
 
     @Override
-    public List<UsuarioResponseDTO> findAll() {
+    public List<UsuarioDto> findAll() {
         List<Usuario> usuarios = usuarioRepository.findAll();
-        return usuarios.stream().map(UsuarioResponseDTO::fromEntity).toList();
+        return usuarios.stream().map(UsuarioDto::toDto).toList();
     }
 
     @Override
-    public UsuarioResponseDTO update(UsuarioEdit UsuarioEdit, Long idUsuario) {
+    public UsuarioDto update(UsuarioEdit UsuarioEdit, Long idUsuario) {
 
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(() -> new NullPointerException("No se encontro la usuario con el id " + idUsuario ));
         UsuarioEdit.applyTo(usuario);
         usuario = usuarioRepository.save(usuario);
-        return UsuarioResponseDTO.fromEntity(usuario);
+        return UsuarioDto.toDto(usuario);
     }
 
     @Override
