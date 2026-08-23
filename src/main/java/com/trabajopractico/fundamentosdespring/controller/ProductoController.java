@@ -1,4 +1,4 @@
-package com.trabajopractico.fundamentosdespring.controllers;
+package com.trabajopractico.fundamentosdespring.controller;
 
 import com.trabajopractico.fundamentosdespring.producto.ProductoCreate;
 import com.trabajopractico.fundamentosdespring.producto.ProductoDto;

@@ -27,6 +27,6 @@ public record ProductoCreate(
         Long categoriaId
 ) {
     public Producto toEntity(Categoria categoria){
-        return new Producto(this.nombre,this.precio,this.descripcion,this.stock,this.imagen, this.disponible, categoriaId);
+        return new Producto(this.nombre,this.precio,this.descripcion,this.stock,this.imagen, this.disponible, categoria);
     }
 }

@@ -25,16 +25,25 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public ProductoDto save(ProductoCreate productoCreate) {
+        // 1. Buscar la categoría por ID
         Long categoriaId = productoCreate.categoriaId();
         Categoria categoria = categoriaRepository.findById(categoriaId)
-                .orElseThrow(() -> new IllegalArgumentException("No se encontró la categoría con ID: " + categoriaId));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "No se encontró la categoría con ID: " + categoriaId));
 
-        // Ajuste de disponible según stock (opcional)
-        boolean disponibleFinal = productoCreate.disponible();
-        if (productoCreate.stock() == 0 && disponibleFinal) {
-            disponibleFinal = false; // forzar a no disponible
+        // 2. Validar unicidad del nombre (evita duplicados)
+        if (productoRepository.existsByNombreIgnoreCase(productoCreate.nombre())) {
+            throw new IllegalArgumentException(
+                    "Ya existe un producto con el nombre: " + productoCreate.nombre());
         }
 
+        // 3. Ajustar disponibilidad según stock (decisión de negocio)
+        boolean disponibleFinal = productoCreate.disponible();
+        if (productoCreate.stock() == 0 && disponibleFinal) {
+            disponibleFinal = false;  // forzar a no disponible
+        }
+
+        // 4. Crear y guardar la entidad
         Producto producto = productoCreate.toEntity(categoria);
         producto.setDisponible(disponibleFinal);
         productoRepository.save(producto);
@@ -58,8 +67,8 @@ public class ProductoServiceImpl implements ProductoService{
         Producto producto = productoRepository.findById(idProducto).orElseThrow(() -> new NullPointerException("No se encontro la producto con el id " + idProducto ));
 
         Categoria categoria = null;
-        if (productoEdit.categoriaId() != null){
-            categoria = categoriaRepository.findById(productoEdit.categoriaId()).orElseThrow(() -> new NullPointerException("No se encontro la categoria con el id " + id));
+        if (productoEdit.categoria() != null){
+            categoria = categoriaRepository.findById(productoEdit.categoria().getId()).orElseThrow(() -> new NullPointerException("No se encontro la categoria con el id " + id));
         }
         productoEdit.applyTo(producto, categoria);
         return ProductoDto.toDto(producto);

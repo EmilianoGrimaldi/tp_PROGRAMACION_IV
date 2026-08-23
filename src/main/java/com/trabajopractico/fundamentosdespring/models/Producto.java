@@ -22,6 +22,6 @@ public class Producto extends Base {
     private boolean disponible;
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    private Long categoriaId;
+    private Categoria categoria;
 
 }

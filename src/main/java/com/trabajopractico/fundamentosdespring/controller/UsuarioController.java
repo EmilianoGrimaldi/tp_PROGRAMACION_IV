@@ -1,6 +1,5 @@
-package com.trabajopractico.fundamentosdespring.controllers;
+package com.trabajopractico.fundamentosdespring.controller;
 
-import com.trabajopractico.fundamentosdespring.models.Usuario;
 import com.trabajopractico.fundamentosdespring.usuario.*;
 import com.trabajopractico.fundamentosdespring.service.UsuarioService;
 import jakarta.validation.Valid;
