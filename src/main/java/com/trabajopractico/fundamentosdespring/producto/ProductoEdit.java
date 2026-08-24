@@ -13,25 +13,28 @@ public record ProductoEdit(
         Categoria categoria
 ) {
     public void applyTo(Producto producto, Categoria categoria){
-        if (this.nombre != null){
+        if (this.nombre != null) {
             producto.setNombre(this.nombre);
         }
-        if (this.precio > 0){
+
+        if (this.precio != null && this.precio > 0) {
             producto.setPrecio(this.precio);
         }
-        if (this.descripcion != null){
+        if (this.descripcion != null) {
             producto.setDescripcion(this.descripcion);
         }
-        if (this.stock > 0){
+
+        if (this.stock != null && this.stock > 0) {
             producto.setStock(this.stock);
         }
-        if (this.imagen != null){
+        if (this.imagen != null) {
             producto.setImagen(this.imagen);
         }
-        if (this.disponible){
+
+        if (this.disponible != null) {
             producto.setDisponible(this.disponible);
         }
-        if (categoria != null){
+        if (categoria != null) {
             producto.setCategoria(categoria);
         }
     }

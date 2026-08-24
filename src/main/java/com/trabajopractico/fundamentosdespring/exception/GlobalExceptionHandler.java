@@ -12,7 +12,6 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Maneja errores de validación (Bean Validation)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDTO> handleValidationErrors(MethodArgumentNotValidException ex) {
         List<String> detalles = ex.getBindingResult()
@@ -27,7 +26,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
     }
 
-    // Maneja errores de ConstraintViolation (en otros contextos)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorDTO> handleConstraintViolation(ConstraintViolationException ex) {
         List<String> detalles = ex.getConstraintViolations()
@@ -41,7 +39,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
     }
 
-    // Maneja ResourceNotFoundException — recurso no encontrado (404)
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleResourceNotFound(ResourceNotFoundException ex) {
         ErrorDTO errorDTO = ErrorDTO.simple(HttpStatus.NOT_FOUND.value(),
@@ -50,7 +47,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
     }
 
-    // Maneja IllegalArgumentException (por ejemplo en validaciones manuales)
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorDTO> handleIllegalArgument(IllegalArgumentException ex) {
         ErrorDTO errorDTO = ErrorDTO.simple(HttpStatus.BAD_REQUEST.value(),
@@ -59,7 +55,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
     }
 
-    // Maneja cualquier otro error no controlado
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleGeneric(Exception ex) {
         ErrorDTO errorDTO = ErrorDTO.simple(HttpStatus.INTERNAL_SERVER_ERROR.value(),

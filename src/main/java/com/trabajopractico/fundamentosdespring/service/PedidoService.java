@@ -11,5 +11,5 @@ public interface PedidoService {
     public List<PedidoDto> findAll();
     public PedidoDto update(PedidoEdit pedidoEdit, Long idPedido);
     public void deleteById(Long id);
-    PedidoDto activate(Long id);
+    public PedidoDto activate(Long id);
 }

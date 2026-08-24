@@ -3,6 +3,7 @@ package com.trabajopractico.fundamentosdespring.controller;
 import com.trabajopractico.fundamentosdespring.pedido.PedidoDto;
 import com.trabajopractico.fundamentosdespring.pedido.PedidoEdit;
 import com.trabajopractico.fundamentosdespring.service.PedidoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class PedidoController {
     private final PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<PedidoDto> save(@RequestBody PedidoEdit pedidoEdit) {
+    public ResponseEntity<PedidoDto> save(@Valid @RequestBody PedidoEdit pedidoEdit) {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.save(pedidoEdit));
     }
 
@@ -33,7 +34,7 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PedidoDto> update(@RequestBody PedidoEdit pedidoEdit, @PathVariable Long id) {
+    public ResponseEntity<PedidoDto> update(@Valid @RequestBody PedidoEdit pedidoEdit, @PathVariable Long id) {
         return ResponseEntity.ok(pedidoService.update(pedidoEdit, id));
     }
 

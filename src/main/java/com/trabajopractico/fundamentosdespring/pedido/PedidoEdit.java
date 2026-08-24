@@ -1,17 +1,25 @@
 package com.trabajopractico.fundamentosdespring.pedido;
 
+import com.trabajopractico.fundamentosdespring.detallePedido.DetallePedidoCreate;
 import com.trabajopractico.fundamentosdespring.models.Estado;
 import com.trabajopractico.fundamentosdespring.models.FormaPago;
 import com.trabajopractico.fundamentosdespring.models.Pedido;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record PedidoEdit(
         LocalDate fecha,
         Estado estado,
         Double total,
         FormaPago formaPago,
-        Long usuarioId  // usado al crear; ignorado (null) en updates
+        Long usuarioId,
+
+        @NotEmpty(message = "El pedido debe tener al menos un detalle")
+        @Valid
+        List<DetallePedidoCreate> detalles  // ← NUEVO
 ) {
     public void applyTo(Pedido pedido) {
         if (this.fecha != null) {

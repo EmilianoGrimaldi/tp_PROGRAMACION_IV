@@ -2,6 +2,7 @@ package com.trabajopractico.fundamentosdespring.config;
 
 import com.trabajopractico.fundamentosdespring.categoria.CategoriaCreate;
 import com.trabajopractico.fundamentosdespring.categoria.CategoriaDto;
+import com.trabajopractico.fundamentosdespring.detallePedido.DetallePedidoCreate;
 import com.trabajopractico.fundamentosdespring.models.*;
 import com.trabajopractico.fundamentosdespring.pedido.PedidoEdit;
 import com.trabajopractico.fundamentosdespring.producto.ProductoCreate;
@@ -19,6 +20,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -103,33 +105,48 @@ public class DataLoader implements CommandLineRunner {
         Producto p9 = productoRepository.findById(p9Dto.id()).orElseThrow();
 
         productoService.save(new ProductoCreate("Gorra", 15.0, "Gorra negra", 50, "http://img.com/gorra.png", true, c3.getId()));
+                PedidoDto ped1Dto = pedidoService.save(
+                        new PedidoEdit(
+                                LocalDate.now(),
+                                Estado.PENDIENTE,
+                                null,
+                                FormaPago.TARJETA,
+                                u1.getId(),
+                                List.of(
+                                        new DetallePedidoCreate(p1.getId(), 1),
+                                        new DetallePedidoCreate(p2.getId(), 2)
+                                )
+                        )
+                );
 
-        // 3 Pedidos usando PedidoEdit (reutilizado como DTO de creación, con usuarioId)
+                PedidoDto ped2Dto = pedidoService.save(
+                        new PedidoEdit(
+                                LocalDate.now(),
+                                Estado.CONFIRMADO,
+                                null,
+                                FormaPago.TRANSFERENCIA,
+                                u2.getId(),
+                                List.of(
+                                        new DetallePedidoCreate(p4.getId(), 1),
+                                        new DetallePedidoCreate(p7.getId(), 4),
+                                        new DetallePedidoCreate(p9.getId(), 2)
+                                )
+                        )
+                );
 
-        // Pedido 1 — Usuario Juan, 2 detalles: Notebook + Mouse
-        PedidoDto ped1Dto = pedidoService.save(
-                new PedidoEdit(LocalDate.now(), Estado.PENDIENTE, null, FormaPago.TARJETA, u1.getId()));
-        Pedido ped1 = pedidoRepository.findById(ped1Dto.id()).orElseThrow();
-        ped1.addDetallePedido(1, p1);
-        ped1.addDetallePedido(2, p2);
-        pedidoRepository.save(ped1);
-
-        // Pedido 2 — Usuario Ana, 3 detalles: Silla + Remera + Zapatillas
-        PedidoDto ped2Dto = pedidoService.save(
-                new PedidoEdit(LocalDate.now(), Estado.CONFIRMADO, null, FormaPago.TRANSFERENCIA, u2.getId()));
-        Pedido ped2 = pedidoRepository.findById(ped2Dto.id()).orElseThrow();
-        ped2.addDetallePedido(1, p4);
-        ped2.addDetallePedido(4, p7);
-        ped2.addDetallePedido(2, p9);
-        pedidoRepository.save(ped2);
-
-        // Pedido 3 — Usuario Juan, 2 detalles: Lampara + Teclado
-        PedidoDto ped3Dto = pedidoService.save(
-                new PedidoEdit(LocalDate.now(), Estado.TERMINADO, null, FormaPago.EFECTIVO, u1.getId()));
-        Pedido ped3 = pedidoRepository.findById(ped3Dto.id()).orElseThrow();
-        ped3.addDetallePedido(10, p6);
-        ped3.addDetallePedido(1, p3);
-        pedidoRepository.save(ped3);
+                PedidoDto ped3Dto = pedidoService.save(
+                        new PedidoEdit(
+                                LocalDate.now(),
+                                Estado.TERMINADO,
+                                null,
+                                FormaPago.EFECTIVO,
+                                u1.getId(),
+                                List.of(
+                                        new DetallePedidoCreate(p6.getId(), 10),
+                                        new DetallePedidoCreate(p3.getId(), 1)
+                                )
+                        )
+                );
 
         System.out.println("========================================");
         System.out.println("Carga de datos inicial completada con exito.");

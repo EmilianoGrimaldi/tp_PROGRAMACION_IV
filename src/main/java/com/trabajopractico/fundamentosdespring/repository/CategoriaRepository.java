@@ -9,11 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
-    // Para buscar solo activos
     Optional<Categoria> findByIdAndEliminadoFalse(Long id);
     List<Categoria> findAllByEliminadoFalse();
 
-    // Validaciones de unicidad
     boolean existsByNombreIgnoreCaseAndEliminadoFalse(String nombre);
     boolean existsByNombreIgnoreCaseAndEliminadoFalseAndIdNot(String nombre, Long id);
 }

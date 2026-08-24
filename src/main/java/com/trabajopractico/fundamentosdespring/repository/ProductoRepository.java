@@ -9,12 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
-    boolean existsByNombreIgnoreCase(String nombre);
-    // Para buscar solo activos
     Optional<Producto> findByIdAndEliminadoFalse(Long id);
     List<Producto> findAllByEliminadoFalse();
 
-    // Validaciones de unicidad
     boolean existsByNombreIgnoreCaseAndEliminadoFalse(String nombre);
     boolean existsByNombreIgnoreCaseAndEliminadoFalseAndIdNot(String nombre, Long id);
 }
