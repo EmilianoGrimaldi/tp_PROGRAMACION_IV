@@ -14,6 +14,7 @@ import com.trabajopractico.fundamentosdespring.service.*;
 import com.trabajopractico.fundamentosdespring.pedido.PedidoDto;
 import com.trabajopractico.fundamentosdespring.usuario.UsuarioCreate;
 import com.trabajopractico.fundamentosdespring.usuario.UsuarioDto;
+import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -47,6 +48,7 @@ public class DataLoader implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         // 2 Usuarios
         UsuarioDto u1Dto = usuarioService
