@@ -12,4 +12,5 @@ public interface ProductoService {
     public List<ProductoDto> findAll();
     public ProductoDto update(ProductoEdit productoEdit, Long idProducto);
     public void deleteById(Long id);
+    ProductoDto activate(Long id);
 }

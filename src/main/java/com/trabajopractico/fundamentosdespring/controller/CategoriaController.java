@@ -44,4 +44,9 @@ public class CategoriaController {
         categoriaService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CategoriaDto> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(categoriaService.activate(id));
+    }
 }

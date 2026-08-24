@@ -43,4 +43,9 @@ public class ProductoController {
         productoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductoDto> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(productoService.activate(id));
+    }
 }

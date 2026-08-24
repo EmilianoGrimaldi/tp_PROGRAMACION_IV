@@ -81,4 +81,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setEliminado(true);
         usuarioRepository.save(usuario);
     }
+
+    public UsuarioDto activate(Long id) {
+        Usuario usuario = usuarioRepository.findById(id) // sin filtro de eliminado
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        if (!usuario.getEliminado()) {
+            throw new IllegalArgumentException("El usuario ya está activo");
+        }
+        usuario.setEliminado(false);
+        usuario = usuarioRepository.save(usuario);
+        return UsuarioDto.toDto(usuario);
+    }
 }

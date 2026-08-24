@@ -6,6 +6,7 @@ import com.trabajopractico.fundamentosdespring.categoria.CategoriaEdit;
 import com.trabajopractico.fundamentosdespring.exception.ResourceNotFoundException;
 import com.trabajopractico.fundamentosdespring.models.Categoria;
 import com.trabajopractico.fundamentosdespring.repository.CategoriaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,5 +57,18 @@ public class CategoriaServiceImpl implements CategoriaService {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la categoría con id " + id));
         categoria.setEliminado(true);
         categoriaRepository.save(categoria);
+    }
+
+    @Override
+    @Transactional
+    public CategoriaDto activate(Long id) {
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la categoría con id " + id));
+        if (!categoria.getEliminado()) {
+            throw new IllegalArgumentException("La categoría ya está activa");
+        }
+        categoria.setEliminado(false);
+        categoria = categoriaRepository.save(categoria);
+        return CategoriaDto.toDto(categoria);
     }
 }

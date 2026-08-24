@@ -47,5 +47,10 @@ public class UsuarioController {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UsuarioDto> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.activate(id));
+    }
 }
 

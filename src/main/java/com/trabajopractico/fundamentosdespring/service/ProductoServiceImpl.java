@@ -8,6 +8,7 @@ import com.trabajopractico.fundamentosdespring.producto.ProductoDto;
 import com.trabajopractico.fundamentosdespring.producto.ProductoEdit;
 import com.trabajopractico.fundamentosdespring.repository.CategoriaRepository;
 import com.trabajopractico.fundamentosdespring.repository.ProductoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -87,5 +88,18 @@ public class ProductoServiceImpl implements ProductoService {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró el producto con id " + id));
         producto.setEliminado(true);
         productoRepository.save(producto);
+    }
+
+    @Override
+    @Transactional
+    public ProductoDto activate(Long id) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el producto con id " + id));
+        if (!producto.getEliminado()) {
+            throw new IllegalArgumentException("El producto ya está activo");
+        }
+        producto.setEliminado(false);
+        producto = productoRepository.save(producto);
+        return ProductoDto.toDto(producto);
     }
 }

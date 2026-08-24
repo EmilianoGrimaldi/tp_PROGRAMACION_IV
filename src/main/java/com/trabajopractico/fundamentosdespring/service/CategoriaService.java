@@ -12,4 +12,5 @@ public interface CategoriaService {
     public List<CategoriaDto> findAll();
     public CategoriaDto update(CategoriaEdit categoriaEdit, Long idCategoria);
     public void deleteById(Long id);
+    CategoriaDto activate(Long id);
 }

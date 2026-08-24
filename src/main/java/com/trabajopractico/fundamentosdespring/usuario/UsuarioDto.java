@@ -12,10 +12,9 @@ public record UsuarioDto(
         String apellido,
         String mail,
         String celular,
-        Rol rol,
-        List<Pedido> pedidos
+        Rol rol
 ) {
     public static UsuarioDto toDto(Usuario usuario) {
-        return new UsuarioDto(usuario.getId(), usuario.getNombre(), usuario.getApellido(), usuario.getMail(), usuario.getCelular(), usuario.getRol(), usuario.getPedidos());
+        return new UsuarioDto(usuario.getId(), usuario.getNombre(), usuario.getApellido(), usuario.getMail(), usuario.getCelular(), usuario.getRol());
     }
 }

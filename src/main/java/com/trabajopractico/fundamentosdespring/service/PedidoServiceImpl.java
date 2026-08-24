@@ -10,6 +10,7 @@ import com.trabajopractico.fundamentosdespring.repository.UsuarioRepository;
 
 import java.util.List;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -73,5 +74,18 @@ public class PedidoServiceImpl implements PedidoService {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró el pedido con id " + id));
         pedido.setEliminado(true);
         pedidoRepository.save(pedido);
+    }
+
+    @Override
+    @Transactional
+    public PedidoDto activate(Long id) {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el pedido con id " + id));
+        if (!pedido.getEliminado()) {
+            throw new IllegalArgumentException("El pedido ya está activo");
+        }
+        pedido.setEliminado(false);
+        pedido = pedidoRepository.save(pedido);
+        return PedidoDto.toDto(pedido);
     }
 }

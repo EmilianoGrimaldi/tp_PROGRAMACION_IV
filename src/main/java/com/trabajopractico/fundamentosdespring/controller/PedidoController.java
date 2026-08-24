@@ -42,4 +42,9 @@ public class PedidoController {
         pedidoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PedidoDto> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(pedidoService.activate(id));
+    }
 }

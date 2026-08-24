@@ -11,4 +11,5 @@ public interface UsuarioService {
     public List<UsuarioDto> findAll();
     public UsuarioDto update(UsuarioEdit UsuarioEdit, Long idUsuario);
     public void deleteById(Long id);
+    public UsuarioDto activate(Long id);
 }
