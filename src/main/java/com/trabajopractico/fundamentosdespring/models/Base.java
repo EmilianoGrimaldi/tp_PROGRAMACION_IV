@@ -20,4 +20,11 @@ public abstract class Base {
     private Boolean eliminado;
     private LocalDateTime createdAt;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        if (this.eliminado == null) {
+            this.eliminado = false;
+        }
+    }
 }

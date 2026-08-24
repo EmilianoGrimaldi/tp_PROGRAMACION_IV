@@ -24,7 +24,12 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDto> findById(@PathVariable Long id) {
-        return  ResponseEntity.ok(usuarioService.findById(id));
+        return ResponseEntity.ok(usuarioService.findById(id));
+    }
+
+    @GetMapping("/mail/{mail}")
+    public ResponseEntity<UsuarioDto> findByMail(@PathVariable String mail) {
+        return ResponseEntity.ok(usuarioService.findByMail(mail));
     }
 
     @GetMapping
@@ -38,8 +43,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UsuarioDto> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
+

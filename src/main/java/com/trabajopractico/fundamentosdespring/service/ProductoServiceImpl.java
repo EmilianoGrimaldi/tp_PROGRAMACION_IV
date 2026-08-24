@@ -1,5 +1,6 @@
 package com.trabajopractico.fundamentosdespring.service;
 
+import com.trabajopractico.fundamentosdespring.exception.ResourceNotFoundException;
 import com.trabajopractico.fundamentosdespring.models.Categoria;
 import com.trabajopractico.fundamentosdespring.models.Producto;
 import com.trabajopractico.fundamentosdespring.producto.ProductoCreate;
@@ -11,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @Service
-public class ProductoServiceImpl implements ProductoService{
+public class ProductoServiceImpl implements ProductoService {
     private final ProductoRepository productoRepository;
     private final CategoriaRepository categoriaRepository;
 
@@ -28,8 +27,8 @@ public class ProductoServiceImpl implements ProductoService{
         // 1. Buscar la categoría por ID
         Long categoriaId = productoCreate.categoriaId();
         Categoria categoria = categoriaRepository.findById(categoriaId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "No se encontró la categoría con ID: " + categoriaId));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "No se encontró la categoría con id: " + categoriaId));
 
         // 2. Validar unicidad del nombre (evita duplicados)
         if (productoRepository.existsByNombreIgnoreCase(productoCreate.nombre())) {
@@ -40,7 +39,7 @@ public class ProductoServiceImpl implements ProductoService{
         // 3. Ajustar disponibilidad según stock (decisión de negocio)
         boolean disponibleFinal = productoCreate.disponible();
         if (productoCreate.stock() == 0 && disponibleFinal) {
-            disponibleFinal = false;  // forzar a no disponible
+            disponibleFinal = false;
         }
 
         // 4. Crear y guardar la entidad
@@ -52,31 +51,40 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public ProductoDto findById(Long id) {
-        Producto producto = productoRepository.findById(id).orElseThrow(() -> new NullPointerException("No se encontro la producto con el id " + id ));
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el producto con id " + id));
         return ProductoDto.toDto(producto);
     }
 
     @Override
     public List<ProductoDto> findAll() {
         List<Producto> productos = productoRepository.findAll();
-        return productos.stream().map(ProductoDto::toDto).toList();
+        return productos.stream()
+                .filter(p -> p.getEliminado() == null || !p.getEliminado())
+                .map(ProductoDto::toDto)
+                .toList();
     }
 
     @Override
     public ProductoDto update(ProductoEdit productoEdit, Long idProducto) {
-        Producto producto = productoRepository.findById(idProducto).orElseThrow(() -> new NullPointerException("No se encontro la producto con el id " + idProducto ));
+        Producto producto = productoRepository.findById(idProducto)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el producto con id " + idProducto));
 
         Categoria categoria = null;
-        if (productoEdit.categoria() != null){
-            categoria = categoriaRepository.findById(productoEdit.categoria().getId()).orElseThrow(() -> new NullPointerException("No se encontro la categoria con el id " + id));
+        if (productoEdit.categoria() != null) {
+            Long catId = productoEdit.categoria().getId();
+            categoria = categoriaRepository.findById(catId)
+                    .orElseThrow(() -> new ResourceNotFoundException("No se encontró la categoría con id " + catId));
         }
         productoEdit.applyTo(producto, categoria);
+        productoRepository.save(producto);
         return ProductoDto.toDto(producto);
     }
 
     @Override
     public void deleteById(Long id) {
-        Producto producto = productoRepository.findById(id).orElseThrow(() -> new NullPointerException("No se encontro la producto con el id " + id ));
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el producto con id " + id));
         producto.setEliminado(true);
         productoRepository.save(producto);
     }

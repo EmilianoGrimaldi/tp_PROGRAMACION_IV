@@ -41,6 +41,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
     }
 
+    // Maneja ResourceNotFoundException — recurso no encontrado (404)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleResourceNotFound(ResourceNotFoundException ex) {
+        ErrorDTO errorDTO = ErrorDTO.simple(HttpStatus.NOT_FOUND.value(),
+                "Recurso no encontrado", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
+    }
+
     // Maneja IllegalArgumentException (por ejemplo en validaciones manuales)
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorDTO> handleIllegalArgument(IllegalArgumentException ex) {
